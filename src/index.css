@@ -6,6 +6,8 @@
     background-color: #FAF7F2;
     color: #18181b;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, .font-display {
@@ -15,13 +17,17 @@
   .font-mono-retro {
     font-family: 'Space Grotesk', monospace;
   }
+
+  * {
+    scroll-behavior: smooth;
+  }
 }
 
-/* Neo-Brutalist Shadows & Accents */
+/* Neo-Brutalist Shadows & Accents — Refined */
 .neo-box {
   border: 2.5px solid #000;
   box-shadow: 4px 4px 0px #000;
-  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .neo-box-sm {
@@ -47,7 +53,7 @@
 .neo-btn-primary {
   border: 2.5px solid #000;
   box-shadow: 4px 4px 0px #000;
-  transition: all 0.12s ease-in-out;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .neo-btn-primary:hover {
@@ -58,6 +64,11 @@
 .neo-btn-primary:active {
   transform: translate(2px, 2px);
   box-shadow: 1px 1px 0px #000;
+}
+
+/* Smoother Transitions for All Interactive Elements */
+button, a, [role="button"] {
+  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Video Filter Effects for Reel Studio */
@@ -116,3 +127,70 @@
 .wave-bar-4 { animation: soundwave 0.5s ease-in-out 0.1s infinite alternate; }
 .wave-bar-5 { animation: soundwave 0.7s ease-in-out 0.3s infinite alternate; }
 
+/* Fade In Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Scale In */
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Slide Up */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Gentle Float */
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+.animate-float {
+  animation: gentleFloat 3s ease-in-out infinite;
+}
+
+/* Pulse Ring */
+@keyframes pulseRing {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+.animate-pulse-ring {
+  animation: pulseRing 1.5s ease-out infinite;
+}
+
+/* Recording Glow */
+@keyframes recordingGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.4); }
+  50% { box-shadow: 0 0 20px 8px rgba(255, 107, 107, 0.2); }
+}
+
+.animate-recording-glow {
+  animation: recordingGlow 1.5s ease-in-out infinite;
+}
+
+/* Gradient text utility */
+.gradient-text {
+  background: linear-gradient(135deg, #FF6B6B, #FDE047, #6EE7B7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

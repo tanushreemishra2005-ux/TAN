@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { RotateCcw, Sparkles, Mic, Music2, Heart } from 'lucide-react';
+import { RotateCcw } from 'lucide-react';
 import { SONGS_DATABASE } from './data/songs';
 import { ScreenState, ActiveFeature, Song } from './types';
 import { Header } from './components/Header';
@@ -20,24 +20,21 @@ export default function App() {
   const [activeFeature, setActiveFeature] = useState<ActiveFeature>('none');
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 
-  // Derived 3 matched songs
+  // Derived matches
   const bestMatch = activeSong;
   const otherSongs = SONGS_DATABASE.filter((s) => s.id !== activeSong.id);
   const alternative1 = otherSongs[0] || SONGS_DATABASE[1];
   const alternative2 = otherSongs[1] || SONGS_DATABASE[2];
 
-  // Handle Mic Permission Granted
   const handlePermissionGranted = (stream: MediaStream | null) => {
     setMediaStream(stream);
     setScreenState('recording');
   };
 
-  // Handle Instant Simulation
   const handleSimulateInstead = () => {
     setScreenState('recording');
   };
 
-  // Handle Song Matched After 4s Countdown (Supports live ACRCloud object or songId)
   const handleSongMatched = (matched: Song | string) => {
     if (typeof matched === 'string') {
       const found = SONGS_DATABASE.find((s) => s.id === matched);
@@ -48,7 +45,6 @@ export default function App() {
     setScreenState('matched');
   };
 
-  // Reset to Fresh Humming Search
   const handleReset = () => {
     playPop(480);
     synthPlayer.stop();
@@ -65,20 +61,19 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#FAF7F2] text-zinc-900 flex flex-col relative font-sans selection:bg-[#FDE047] selection:text-black">
-      {/* Background Neo-Brutalist Doodles & Stickers */}
+      {/* Background Doodles */}
       <MusicDoodles />
 
-      {/* Header & Sticky Navigation */}
+      {/* Header */}
       <Header
         onOpenFeedback={() => setShowFeedbackModal(true)}
         onReset={handleFullReset}
       />
 
-      {/* Main Container */}
+      {/* Main Content */}
       <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10 flex flex-col items-center justify-center relative z-10">
-        {/* Step Flow Switcher */}
         {screenState === 'onboarding' && (
-          <div className="w-full animate-fade-in my-auto">
+          <div className="w-full my-auto">
             <OnboardingCard
               onPermissionGranted={handlePermissionGranted}
               onSimulateInstead={handleSimulateInstead}
@@ -87,7 +82,7 @@ export default function App() {
         )}
 
         {screenState === 'recording' && (
-          <div className="w-full animate-fade-in my-auto">
+          <div className="w-full my-auto">
             <RecordEngine
               mediaStream={mediaStream}
               onSongMatched={handleSongMatched}
@@ -97,7 +92,7 @@ export default function App() {
         )}
 
         {screenState === 'matched' && (
-          <div className="w-full animate-fade-in">
+          <div className="w-full">
             <SongMatchedView
               bestMatch={bestMatch}
               alternative1={alternative1}
@@ -112,22 +107,21 @@ export default function App() {
         )}
       </main>
 
-      {/* Floating "Try Another Song" Reset Button (when on Matched Screen) */}
+      {/* Floating Reset Button */}
       {screenState === 'matched' && (
-        <div className="fixed bottom-6 right-6 z-40 animate-bounce">
+        <div className="fixed bottom-5 right-5 z-40">
           <button
             id="try-another-song-btn"
             onClick={handleReset}
-            className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-[#FDE047] hover:bg-[#fed626] text-black font-black text-sm sm:text-base border-[3px] border-black shadow-[4px_4px_0px_#000] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0px_#000] transition-all cursor-pointer"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#FDE047] hover:bg-[#fed626] text-black font-black text-xs sm:text-sm border-[2.5px] border-black shadow-[3px_3px_0px_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0px_#000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_#000] transition-all cursor-pointer"
           >
-            <RotateCcw className="w-5 h-5 stroke-[2.5]" />
-            <span>HUM ANOTHER SONG</span>
-            <span className="text-lg">🎙️</span>
+            <RotateCcw className="w-4 h-4 stroke-[2.5]" />
+            <span>HUM AGAIN</span>
           </button>
         </div>
       )}
 
-      {/* Modals & Overlays */}
+      {/* Modals */}
       {activeFeature === 'listen_modal' && (
         <ListenModal
           song={activeSong}
@@ -155,16 +149,17 @@ export default function App() {
       )}
 
       {/* Footer */}
-      <footer className="w-full border-t-2 border-black bg-white/60 py-4 px-6 text-center text-xs font-bold text-zinc-600 mt-auto relative z-10">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+      <footer className="w-full border-t-2 border-black/10 bg-white/60 py-3 px-6 text-center text-[11px] font-semibold text-zinc-500 mt-auto relative z-10">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1.5">
           <div className="flex items-center gap-1.5 font-black text-black">
-            <span className="w-2 h-2 rounded-full bg-[#FF6B6B]" />
-            <span>FineTune</span> — The music finder built for the way India hums.
+            <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B6B]" />
+            <span>FineTune</span>
+            <span className="font-normal text-zinc-400">— Hum to discover any song</span>
           </div>
-          <div className="flex items-center gap-3">
-            <span>Powered by Desi Audio Frequency Intelligence</span>
-            <span>•</span>
-            <span className="text-black font-black">20+ Indian Languages</span>
+          <div className="flex items-center gap-2 text-zinc-400">
+            <span>YouTube Music &amp; Spotify</span>
+            <span className="text-zinc-300">•</span>
+            <span className="font-bold text-black">20+ Languages</span>
           </div>
         </div>
       </footer>

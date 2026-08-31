@@ -1,0 +1,33 @@
+{
+  "generatedAt": "2026-08-31T07:29:54.499Z",
+  "voiceId": "21m00Tcm4TlvDq8ikWAM",
+  "modelId": "eleven_multilingual_v2",
+  "totalDuration": 35.2684326171875,
+  "segments": [
+    {
+      "scene": "hook",
+      "filename": "01-hook.mp3",
+      "duration": 6.55877685546875
+    },
+    {
+      "scene": "reveal",
+      "filename": "02-reveal.mp3",
+      "duration": 2.502685546875
+    },
+    {
+      "scene": "demo",
+      "filename": "03-demo.mp3",
+      "duration": 10.25775146484375
+    },
+    {
+      "scene": "features",
+      "filename": "04-features.mp3",
+      "duration": 11.81390380859375
+    },
+    {
+      "scene": "endcard",
+      "filename": "05-endcard.mp3",
+      "duration": 4.13531494140625
+    }
+  ]
+}
