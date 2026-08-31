@@ -1,5 +1,5 @@
 import React from 'react';
-import { AbsoluteFill, Sequence, useCurrentFrame, useVideoConfig, interpolate } from 'remotion';
+import { AbsoluteFill, Sequence, Audio, staticFile, useCurrentFrame, useVideoConfig, interpolate } from 'remotion';
 import { HookScene } from './scenes/HookScene';
 import { RevealScene } from './scenes/RevealScene';
 import { DemoScene } from './scenes/DemoScene';
@@ -38,6 +38,20 @@ export const FineTuneLaunch: React.FC<FineTuneLaunchProps> = ({ orientation }) =
   const ENDCARD_START = FEATURES_END;
   const ENDCARD_END = durationInFrames;
 
+  // Crossfade helper — fade out previous scene
+  const sceneFadeOut = (endFrame: number) =>
+    interpolate(frame, [endFrame - fps * 0.4, endFrame], [1, 0], {
+      extrapolateRight: 'clamp',
+      extrapolateLeft: 'clamp',
+    });
+
+  // Scene entrance fade
+  const sceneFadeIn = (startFrame: number) =>
+    interpolate(frame, [startFrame, startFrame + fps * 0.3], [0, 1], {
+      extrapolateRight: 'clamp',
+      extrapolateLeft: 'clamp',
+    });
+
   return (
     <AbsoluteFill
       style={{
@@ -45,7 +59,14 @@ export const FineTuneLaunch: React.FC<FineTuneLaunchProps> = ({ orientation }) =
         fontFamily: "'Plus Jakarta Sans', 'Cabinet Grotesk', system-ui, sans-serif",
       }}
     >
-      {/* Global gradient overlay that shifts across scenes */}
+      {/* === VOICEOVER AUDIO TRACKS === */}
+      <Audio src={staticFile('voiceover/01-hook.mp3')} volume={0.85} />
+      <Audio src={staticFile('voiceover/02-reveal.mp3')} volume={0.85} />
+      <Audio src={staticFile('voiceover/03-demo.mp3')} volume={0.85} />
+      <Audio src={staticFile('voiceover/04-features.mp3')} volume={0.85} />
+      <Audio src={staticFile('voiceover/05-endcard.mp3')} volume={0.85} />
+
+      {/* Global gradient overlay */}
       <AbsoluteFill
         style={{
           background: `linear-gradient(${interpolate(frame, [0, durationInFrames], [135, 315], { extrapolateRight: 'clamp' })}deg, rgba(255,107,107,0.03), rgba(253,224,71,0.03), rgba(110,231,183,0.03))`,
@@ -54,27 +75,37 @@ export const FineTuneLaunch: React.FC<FineTuneLaunchProps> = ({ orientation }) =
 
       {/* Scene 1: Hook */}
       <Sequence from={HOOK_START} durationInFrames={HOOK_END - HOOK_START}>
-        <HookScene isVertical={isVertical} />
+        <AbsoluteFill style={{ opacity: Math.min(sceneFadeIn(HOOK_START), sceneFadeOut(HOOK_END)) }}>
+          <HookScene isVertical={isVertical} />
+        </AbsoluteFill>
       </Sequence>
 
       {/* Scene 2: Product Reveal */}
       <Sequence from={REVEAL_START} durationInFrames={REVEAL_END - REVEAL_START}>
-        <RevealScene isVertical={isVertical} />
+        <AbsoluteFill style={{ opacity: Math.min(sceneFadeIn(REVEAL_START), sceneFadeOut(REVEAL_END)) }}>
+          <RevealScene isVertical={isVertical} />
+        </AbsoluteFill>
       </Sequence>
 
       {/* Scene 3: Demo */}
       <Sequence from={DEMO_START} durationInFrames={DEMO_END - DEMO_START}>
-        <DemoScene isVertical={isVertical} />
+        <AbsoluteFill style={{ opacity: Math.min(sceneFadeIn(DEMO_START), sceneFadeOut(DEMO_END)) }}>
+          <DemoScene isVertical={isVertical} />
+        </AbsoluteFill>
       </Sequence>
 
       {/* Scene 4: Features */}
       <Sequence from={FEATURES_START} durationInFrames={FEATURES_END - FEATURES_START}>
-        <FeaturesScene isVertical={isVertical} />
+        <AbsoluteFill style={{ opacity: Math.min(sceneFadeIn(FEATURES_START), sceneFadeOut(FEATURES_END)) }}>
+          <FeaturesScene isVertical={isVertical} />
+        </AbsoluteFill>
       </Sequence>
 
       {/* Scene 5: Endcard */}
       <Sequence from={ENDCARD_START} durationInFrames={ENDCARD_END - ENDCARD_START}>
-        <EndcardScene isVertical={isVertical} />
+        <AbsoluteFill style={{ opacity: sceneFadeIn(ENDCARD_START) }}>
+          <EndcardScene isVertical={isVertical} />
+        </AbsoluteFill>
       </Sequence>
     </AbsoluteFill>
   );

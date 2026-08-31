@@ -1,21 +1,18 @@
 import React from 'react';
 import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from 'remotion';
+import { YouTubeMusicLogo, SpotifyLogo } from '../logos/PlatformLogos';
 
 interface FeaturesSceneProps {
   isVertical: boolean;
 }
 
-/**
- * Scene 4: Features (15-21s) — 6 seconds
- * Showcase key capabilities with staggered card reveals.
- */
 export const FeaturesScene: React.FC<FeaturesSceneProps> = ({ isVertical }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
   const features = [
-    { icon: '🎧', title: 'YouTube Music', subtitle: 'Stream instantly', bg: '#FF6B6B', delay: 0 },
-    { icon: '🟢', title: 'Spotify', subtitle: 'Find on any platform', bg: '#6EE7B7', delay: 4 },
+    { icon: '🎧', logo: <YouTubeMusicLogo size={32} />, title: 'YouTube Music', subtitle: 'Stream instantly', bg: '#FF6B6B', delay: 0 },
+    { icon: '🟢', logo: <SpotifyLogo size={32} />, title: 'Spotify', subtitle: 'Find on any platform', bg: '#6EE7B7', delay: 4 },
     { icon: '🎤', title: 'Karaoke Mode', subtitle: 'Sing with lyrics', bg: '#FDE047', delay: 8 },
     { icon: '🎬', title: 'Create Reels', subtitle: '15s video clips', bg: '#7DD3FC', delay: 12 },
   ];
@@ -38,7 +35,9 @@ export const FeaturesScene: React.FC<FeaturesSceneProps> = ({ isVertical }) => {
             const cardY = interpolate(frame, [fps * 0.3 + f.delay, fps * 0.6 + f.delay], [30, 0], { extrapolateRight: 'clamp', extrapolateLeft: 'clamp' });
             return (
               <div key={f.title} style={{ opacity: cardFade, transform: `translateY(${cardY}px)`, display: 'flex', alignItems: 'center', gap: isVertical ? 16 : 20, padding: isVertical ? '20px 24px' : '24px 28px', borderRadius: 20, backgroundColor: f.bg, border: '2.5px solid #000', boxShadow: '4px 4px 0px #000' }}>
-                <div style={{ width: isVertical ? 56 : 64, height: isVertical ? 56 : 64, borderRadius: 16, backgroundColor: '#fff', border: '2px solid #000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: isVertical ? 28 : 32, flexShrink: 0 }}>{f.icon}</div>
+                <div style={{ width: isVertical ? 56 : 64, height: isVertical ? 56 : 64, borderRadius: 16, backgroundColor: '#fff', border: '2px solid #000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: isVertical ? 28 : 32, flexShrink: 0 }}>
+                  {f.logo || f.icon}
+                </div>
                 <div>
                   <h3 style={{ fontSize: isVertical ? 24 : 28, fontWeight: 900, color: '#000', margin: 0 }}>{f.title}</h3>
                   <p style={{ fontSize: isVertical ? 16 : 18, fontWeight: 600, color: 'rgba(0,0,0,0.6)', margin: '4px 0 0 0' }}>{f.subtitle}</p>
