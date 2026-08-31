@@ -1,0 +1,6 @@
+{
+  "name": "FineTune",
+  "description": "Hum, sing, or search to discover English & Indic songs powered by YouTube Music and Spotify. Sing 15-second instrumental karaoke, view synchronized lyrics, and create video reels.",
+  "requestFramePermissions": ["microphone", "camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
